@@ -1,0 +1,121 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="styles/home.css" />
+	</head>
+	<body>
+		<div id="container"></div>
+		<div id="search-btn">
+			<input
+				input="recipe()"
+				type="text"
+				placeholder="search recipe"
+				id="search"
+			/>
+		</div>
+		<div id="search-recipe"></div>
+		<div id="search-append"></div>
+
+		<div id="appendData"></div>
+	</body>
+</html>
+
+<script type="module">
+	import navbar from "./components/navbar.js";
+	import { getData, appendData } from "./scripts/showData.js";
+
+	let id;
+	let query;
+	let container = document.getElementById("container");
+	container.innerHTML = navbar();
+	let authorization = JSON.parse(localStorage.getItem("authorization"));
+	let sing_in = document.getElementById("sign-in");
+	if (authorization == null) {
+		sing_in.innerHTML = "signIn";
+	} else if (authorization !== null) {
+		sing_in.innerHTML = authorization.email;
+	}
+	let search_box = document.getElementById("search");
+
+	let search_appendDiv = document.getElementById("search-append");
+
+	let url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood";
+
+	let append_div = document.getElementById("appendData");
+	let search_Div = document.getElementById("search-recipe");
+
+	let response = getData(url);
+	// console.log(response);
+	response
+		.then((res) => {
+			// console.log(res);
+			appendData(res, append_div);
+		})
+		.catch((err) => {
+			console.log("err:", err);
+		});
+	search_box.addEventListener("input", debounce);
+	async function recipe() {
+		query = search_box.value;
+		// console.log(query);
+
+		try {
+			let resp = await fetch(
+				`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
+			);
+			let data = await resp.json();
+			let newData = data.meals;
+			searchDiv(newData);
+			console.log("data:", newData);
+		} catch (e) {
+			console.log("e:", e);
+		}
+	}
+
+	function searchDiv(data) {
+		search_Div.innerHTML = null;
+		search_Div.style.display = "flex";
+
+		data.map(({ strMealThumb, strMeal }) => {
+			search_appendDiv.innerHTML = null;
+			let div = document.createElement("div");
+			let image = document.createElement("img");
+			image.src = strMealThumb;
+			let title = document.createElement("p");
+			title.innerHTML = strMeal;
+			div.append(image, title);
+			search_Div.append(div);
+
+			div.addEventListener("click", function () {
+				search_Div.style.display = "none";
+
+				append_div.innerHTML = null;
+				console.log("here");
+				console.log(strMeal, strMealThumb);
+				let div = document.createElement("div");
+				let image = document.createElement("img");
+				image.src = strMealThumb;
+				let title = document.createElement("p");
+				title.innerHTML = strMeal;
+				div.append(image, title);
+				search_appendDiv.append(div);
+				search_box.value = "";
+			});
+		});
+	}
+	function debounce() {
+		if (id) {
+			clearTimeout(id);
+		}
+
+		id = setTimeout(() => {
+			recipe();
+		}, 1000);
+	}
+</script>

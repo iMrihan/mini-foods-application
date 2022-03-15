@@ -1,0 +1,136 @@
+/** @format */
+
+body {
+	background-color: rgb(2, 131, 131);
+}
+#navbar {
+	/* border: 1px solid red; */
+	display: flex;
+	height: 50px;
+	justify-content: space-between;
+	background-color: aqua;
+	align-items: center;
+	border-radius: 10px;
+}
+#navbar > a {
+	margin-left: 40px;
+	text-decoration: none;
+}
+#options {
+	display: flex;
+	align-items: center;
+}
+#options > input {
+	margin-right: 50px;
+	padding: 10px 20px;
+	height: 10px;
+	border-radius: 10px;
+}
+#options > a {
+	text-decoration: none;
+	margin-right: 50px;
+}
+#search-btn {
+	width: 220px;
+	margin: auto;
+}
+#search {
+	/* margin-right: 50px; */
+	height: 10px;
+	padding: 10px 0px 10px 40px;
+	/* border-radius: 10px; */
+	margin-top: 10px;
+}
+#appendData {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	/* width: 90%; */
+	/* margin: auto; */
+	gap: 10px;
+	margin-top: 20px;
+}
+#appendData > div {
+	width: 300px;
+	height: 250px;
+	/* margin: auto; */
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+	padding: 10px;
+	color: white;
+	font-weight: bold;
+}
+img {
+	width: 100%;
+	height: 80%;
+	border-radius: 10px;
+}
+h1 {
+	text-align: center;
+	color: white;
+}
+
+#appendRandom > div > img {
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+	width: 400px;
+	height: 350px;
+	color: white;
+	font-weight: bold;
+	padding: 20px;
+}
+span {
+	font-weight: bold;
+	font-size: 17px;
+	color: whitesmoke;
+}
+#appendRandom > div {
+	color: white;
+	margin-left: 50px;
+}
+#search-recipe {
+	width: 216px;
+	height: 200px;
+	border: 1px solid rgb(198, 223, 223);
+	margin: auto;
+
+	overflow: scroll;
+	display: none;
+	flex-direction: column;
+}
+#search-recipe > div {
+	display: flex;
+	width: 180px;
+	margin: auto;
+	padding: 10px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+	font-size: 13px;
+}
+#search-recipe > div > img {
+	width: 30%;
+	height: 50px;
+	margin-right: 10px;
+}
+#search-append > div {
+	width: 30%;
+	margin: auto;
+	margin-top: 50px;
+	padding: 20px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+#main {
+	display: flex;
+}
+#main > div {
+	flex: 1;
+}
+form {
+	width: 25%;
+}

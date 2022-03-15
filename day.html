@@ -1,0 +1,42 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="styles/home.css" />
+	</head>
+	<body>
+		<div id="container"></div>
+		<h1><---------Recipie Of The Day--------></h1>
+		<div id="appendRandom"></div>
+	</body>
+</html>
+
+<script type="module">
+	import navbar from "./components/navbar.js";
+	import { getData, random } from "./scripts/showData.js";
+
+	let container = document.getElementById("container");
+	container.innerHTML = navbar();
+	let authorization = JSON.parse(localStorage.getItem("authorization"));
+	let sing_in = document.getElementById("sign-in");
+	if (authorization == null) {
+		sing_in.innerHTML = "signIn";
+	} else if (authorization !== null) {
+		sing_in.innerHTML = authorization.email;
+	}
+	let url = "https://www.themealdb.com/api/json/v1/1/random.php";
+
+	let append_div = document.getElementById("appendRandom");
+
+	let response = getData(url);
+	console.log(response);
+	response.then((res) => {
+		console.log(res);
+		random(res, append_div);
+	});
+</script>

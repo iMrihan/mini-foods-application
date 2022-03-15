@@ -1,0 +1,172 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="styles/home.css" />
+	</head>
+	<body>
+		<div id="container"></div>
+		<div id="main">
+			<div>
+				<form id="register">
+					<h1>Register</h1>
+
+					<input type="text" id="name" placeholder="name" />
+					<input type="email" id="email" placeholder="email" />
+
+					<input type="text" id="username" placeholder="username" />
+					<input type="password" id="password" placeholder="password" />
+
+					<input type="number" id="mobile" placeholder="mobile" />
+					<input type="text" id="description" placeholder="description" />
+
+					<input type="submit" />
+				</form>
+			</div>
+			<div>
+				<form id="login">
+					<h1>Login</h1>
+					<h2 id="mail"></h2>
+					<input type="text" id="username-login" placeholder="Username" />
+					<input type="password" id="password-login" placeholder="Password" />
+					<input type="submit" />
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="module">
+	import navbar from "./components/navbar.js";
+	let container = document.getElementById("container");
+	console.log("here");
+	container.innerHTML = navbar();
+
+	let authorization = JSON.parse(localStorage.getItem("authorization"));
+	let sing_in = document.getElementById("sign-in");
+	if (authorization == null) {
+		sing_in.innerHTML = "signIn";
+	} else if (authorization !== null) {
+		sing_in.innerHTML = authorization.email;
+	}
+
+	let register = document.getElementById("register");
+	register.addEventListener("submit", Register);
+	async function Register(e) {
+		try {
+			e.preventDefault();
+			var reg_data = {
+				name: document.getElementById("name").value,
+				email: document.getElementById("email").value,
+
+				username: document.getElementById("username").value,
+				password: document.getElementById("password").value,
+
+				mobile: document.getElementById("mobile").value,
+				description: document.getElementById("description").value,
+			};
+			reg_data = JSON.stringify(reg_data);
+
+			let reg_api = "https://masai-api-mocker.herokuapp.com/auth/register ";
+
+			let response = await fetch(reg_api, {
+				method: "POST",
+				body: reg_data,
+
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			let data = await response.json();
+			console.log("data:", data);
+			console.log(reg_data);
+
+			let name = document.getElementById("name").value;
+			let email = document.getElementById("email").value;
+
+			let username = document.getElementById("username").value;
+			let password = document.getElementById("password").value;
+
+			let mobile = document.getElementById("mobile").value;
+			let description = document.getElementById("description").value;
+
+			if (
+				name !== "" &&
+				username !== "" &&
+				password !== "" &&
+				mobile !== "" &&
+				description !== ""
+			) {
+				if (data.error == true) {
+					alert(data.message);
+				} else if (data.error == false) {
+					alert(data.message);
+				}
+			} else {
+				alert("fill the details");
+			}
+		} catch (error) {
+			console.log("error:", error);
+		}
+	}
+	let loginId = document.getElementById("login");
+	loginId.addEventListener("submit", login);
+	async function login(e) {
+		try {
+			e.preventDefault();
+
+			var login_data = {
+				username: document.getElementById("username-login").value,
+				password: document.getElementById("password-login").value,
+			};
+
+			login_data = JSON.stringify(login_data);
+
+			let log_api = `https://masai-api-mocker.herokuapp.com/auth/login`;
+
+			let response = await fetch(log_api, {
+				method: "POST",
+
+				body: login_data,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			let data = await response.json();
+			console.log("data: ", data);
+
+			let username = document.getElementById("username-login").value;
+
+			let password = document.getElementById("password-login").value;
+
+			getUser(username, password, data.token);
+		} catch (error) {
+			console.log("error:", error);
+			alert("login failed");
+		}
+	}
+	async function getUser(username, password, token) {
+		let api = `https://masai-api-mocker.herokuapp.com/user/${username}`;
+
+		let response = await fetch(api, {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		let data = await response.json();
+		console.log("data:", data);
+		if (data.username == username) {
+			alert("login successfully");
+
+			localStorage.setItem("authorization", JSON.stringify(data));
+			window.location.href = "./home.html";
+		}
+	}
+</script>
